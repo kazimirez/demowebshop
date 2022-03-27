@@ -3,6 +3,7 @@ from .pages.locators import main_page_link
 from .pages.main_page import MainPage
 
 
+@pytest.mark.smoke
 def test_should_be_basic_links(browser):
     page = MainPage(browser, main_page_link)
     page.open()
