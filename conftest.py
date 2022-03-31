@@ -1,36 +1,43 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-def pytest_collection_modifyitems(items, config):
-    for item in items:
-        if not any(item.iter_markers()):
-            item.add_marker("unmarked")
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 
 def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default='chrome',
                      help="Choose browser: chrome or firefox")
-    parser.addoption('--browser_language', action='store', default='en',
-                     help="language")
+    parser.addoption('--is_headless', action='store', default='false',
+                     help="need headless or not?")
 
 
 @pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("browser_name")
-    browser_language = request.config.getoption("browser_language")
-
+    is_headless = request.config.getoption("is_headless")
     if browser_name == "chrome":
-        options = Options()
-        options.add_experimental_option('prefs', {'intl.accept_languages': browser_language})
-        print("\nstart chrome browser for test..")
-        browser = webdriver.Chrome()
+        if is_headless == 'true':
+            options = Options()
+            options.headless = True
+            print("\nstart chrome browser for test..")
+            browser = webdriver.Chrome(options=options)
+        elif is_headless == 'false':
+            print("\nstart chrome browser for test..")
+            browser = webdriver.Chrome()
+        else:
+            raise pytest.UsageError("-- choose if true or false for headless mode")
 
     elif browser_name == "firefox":
-        fp = webdriver.FirefoxProfile()
-        fp.set_preference("intl.accept_languages", browser_language)
-        print("\nstart firefox browser for test..")
-        browser = webdriver.Firefox(firefox_profile=fp)
+        if is_headless == 'true':
+            print("\nstart firefox browser for test..")
+            options = FirefoxOptions()
+            options.add_argument("--headless")
+            browser = webdriver.Firefox(options=options)
+        elif is_headless == 'false':
+            print("\nstart firefox browser for test..")
+            browser = webdriver.Firefox()
+        else:
+            raise pytest.UsageError("-- choose if true or false for headless mode")
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")
     browser.implicitly_wait(3)
