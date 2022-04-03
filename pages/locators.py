@@ -1,8 +1,6 @@
 from selenium.webdriver.common.by import By
 
 
-
-
 class HeaderLocators:
     REGISTER_BUTTON = (By.CSS_SELECTOR, ".ico-register")
     LOGIN_LINK = (By.CSS_SELECTOR, ".ico-login")
@@ -25,7 +23,13 @@ class RegisterLocators:
     LOG_IN_BUTTON = (By.CSS_SELECTOR, '.login-button')
 
 
-class AccountLocators:
+class LogInLocators:
+    EMAIL_FIELD = (By.CSS_SELECTOR, '#Email')
+    PASSWORD_FIELD = (By.CSS_SELECTOR, '#Password')
+    LOG_IN_BUTTON = (By.CSS_SELECTOR, '.login-button')
+
+
+class ChangePwdLocators:
     CHANGE_PWD_LINK = (By.CSS_SELECTOR, 'li:nth-child(7) .inactive')
     OLD_PWD_FIELD = (By.CSS_SELECTOR, '#OldPassword')
     NEW_PWD_FIELD = (By.CSS_SELECTOR, '#NewPassword')

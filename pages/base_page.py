@@ -1,5 +1,5 @@
 from selenium.common.exceptions import NoSuchElementException
-from.locators import AccountLocators
+from .locators import ChangePwdLocators
 from .locators import HeaderLocators
 
 
@@ -23,7 +23,7 @@ class BasePage:
         link.click()
 
     def go_to_change_pwd_page(self):
-        link = self.browser.find_element(*AccountLocators.CHANGE_PWD_LINK)
+        link = self.browser.find_element(*ChangePwdLocators.CHANGE_PWD_LINK)
         link.click()
 
     def log_out(self):
